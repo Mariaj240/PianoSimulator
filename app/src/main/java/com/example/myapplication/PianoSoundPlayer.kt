@@ -11,15 +11,12 @@ class PianoSoundPlayer(val context: Context) {
     val sounds: Map<Int, String> =
         mapOf(1 to "do", 2 to "re", 3 to "mi", 4 to "fa", 5 to "so", 6 to "la", 7 to "si",
             8 to "doBlack", 9 to "reBlack", 10 to "faBlack", 11 to "soBlack", 12 to "laBlack")
-    val threads: MutableMap<Int, SoundThread>
-    init {
-        threads = mutableMapOf()
-    }
+    val threads: MutableMap<Int, SoundThread> = mutableMapOf()
     fun playSound(indexNote: Int) {
         if (!threads.containsKey(indexNote)) {
             val sound = SoundThread(indexNote)
             sound.start()
-            threads.put(indexNote, sound)
+            threads[indexNote] = sound
         }
     }
     fun stopSound(indexNote: Int) {
@@ -29,7 +26,7 @@ class PianoSoundPlayer(val context: Context) {
     }
     inner class SoundThread(val indexNotes: Int): Thread() {
         override fun run() {
-            val path = sounds.get(indexNotes) + ".mp3"
+            val path = sounds.get(indexNotes) + ".wav"
             val asset = context.assets
             val descriptor = asset.openFd(path)
             val fileSize: Long = descriptor.length

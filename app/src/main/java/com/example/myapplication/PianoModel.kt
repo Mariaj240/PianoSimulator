@@ -16,7 +16,9 @@ class PianoModel {
         paint1.setColor(android.graphics.Color.BLACK)
         val paint2 = Paint()
         paint2.setColor(android.graphics.Color.WHITE)
-        paints = listOf<Paint>(paint1, paint2)
+        val paint3 = Paint()
+        paint3.setColor(android.graphics.Color.YELLOW)
+        paints = listOf<Paint>(paint1, paint2, paint3)
         widthKey = 0
         heightKey = 0
     }
