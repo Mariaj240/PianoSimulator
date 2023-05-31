@@ -20,8 +20,8 @@ class PianoView(context: Context, attribute: AttributeSet) :
         pianoControl.model.heightKey = h
         pianoControl.model.widthKey = w / pianoControl.model.countKeys
         for (i in 0 until pianoControl.model.countKeys) {
-            var left = i * pianoControl.model.heightKey
-            var right = left + pianoControl.model.heightKey
+            var left = i * pianoControl.model.widthKey
+            var right = left + pianoControl.model.widthKey
             if (i == pianoControl.model.countKeys - 1) {
                 right = w
             }
@@ -61,25 +61,29 @@ class PianoView(context: Context, attribute: AttributeSet) :
         for (i in 0 until event!!.pointerCount) {
             val x = event.getX(i)
             val y = event.getY(i)
-            var key: PianoKey? = null
-            for (wKey in pianoControl.model.whiteKeys) {
-                if (wKey.rectF.contains(x, y)) {
-                    key = wKey
-                    break
-                }
-            }
-            for (bKey in pianoControl.model.blackKeys) {
-                if (bKey.rectF.contains(x, y)) {
-                    key = bKey
-                    break
-                }
-            }
+            var key: PianoKey? = findKey(x,y)
+
             if (key != null) {
                 key.isClicked = isCorrect
             }
         }
         pianoControl.play()
         return true
+    }
+    fun findKey(x:Float, y:Float) : PianoKey?{
+
+        for (bKey in pianoControl.model.blackKeys) {
+            if (bKey.rectF.contains(x, y)) {
+                return bKey
+
+            }
+        }
+        for (wKey in pianoControl.model.whiteKeys) {
+            if (wKey.rectF.contains(x, y)) {
+                return wKey
+            }
+        }
+        return null
     }
 }
 
